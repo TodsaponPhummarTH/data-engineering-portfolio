@@ -55,7 +55,7 @@ def generate_data():
         "reading_interval_sec": 60,
         
         # Patient identifiers
-        "patient_id": f"P{random.randint(1000, 9999)}",
+        "patient_id": f"P{random.randint(1, 100)}",
         "hospital_room": f"{random.choice(['ICU', 'ER', 'Ward'])}-{random.randint(1, 20)}",
         
         # Vital signs

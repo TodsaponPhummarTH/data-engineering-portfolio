@@ -59,7 +59,7 @@ consumer = KafkaConsumer(
     KAFKA_TOPIC,
     bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
     value_deserializer=value_deserializer,
-    auto_offset_reset='earliest',
+    auto_offset_reset='latest',
     enable_auto_commit=True
 )
 
