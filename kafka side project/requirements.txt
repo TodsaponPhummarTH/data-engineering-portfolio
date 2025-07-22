@@ -1,0 +1,11 @@
+kafka-python==2.0.2
+faker==24.9.0
+psycopg2-binary==2.9.9       # For PostgreSQL (used in Airflow/consumer)
+pandas==2.2.2                 # For future transformations
+confluent-kafka==1.9.2       # For Kafka producer/consumer
+apache-airflow
+apache-airflow-providers-postgres
+
+# dashboard
+#streamlit latest
+streamlit==1.28.0
