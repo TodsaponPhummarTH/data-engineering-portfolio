@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Chatbot</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF Chatbot</h1>
+            <p>Upload PDFs and ask questions about their content</p>
+        </header>
+        
+        <main>
+            <section class="upload-section">
+                <h2>Upload PDF</h2>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="file-upload">
+                        <input type="file" id="file" name="file" accept=".pdf" required>
+                        <label for="file">Choose PDF file</label>
+                        <div id="fileDetails" class="file-details hidden">
+                            <p><strong>Selected File:</strong> <span id="fileName"></span></p>
+                            <p><strong>File Type:</strong> <span id="fileType"></span></p>
+                            <p><strong>File Size:</strong> <span id="fileSize"></span></p>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn primary">Upload PDF (Replaces current document)</button>
+                </form>
+            </section>
+
+            <section class="chat-section">
+                <h2>Chat with PDF</h2>
+                <div id="chatHistory" class="chat-history">
+                    <div class="message-system">
+                        <p>Upload a PDF to start chatting!</p>
+                    </div>
+                </div>
+                <form id="chatForm" class="chat-form">
+                    <input type="text" id="messageInput" placeholder="Type your question..." required>
+                    <button type="submit" class="btn secondary">Send</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        async function uploadFile(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const uploadButton = event.target.querySelector('button[type="submit"]');
+            const fileInput = event.target.querySelector('input[type="file"]');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a file to upload');
+                return;
+            }
+            
+            try {
+                // Show confirmation message
+                if (!confirm('Uploading this file will replace all existing documents. Continue?')) {
+                    return;
+                }
+
+                uploadButton.disabled = true;
+                uploadButton.textContent = 'Uploading...';
+                
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || 'Failed to upload file');
+                }
+                
+                const result = await response.json();
+                
+                const stats = result.stats || {};
+                const message = `File uploaded and processed successfully!
+- File: ${result.filename}
+- Text length: ${stats.text_length || 0} characters
+- Chunks created: ${stats.chunks_count || 0}
+- Average chunk size: ${stats.text_length ? Math.round(stats.text_length / stats.chunks_count) : 0} characters per chunk`;
+                
+                addSystemMessage(message);
+                alert(`File uploaded and processed successfully!
+
+${message}`);
+                fileInput.value = ''; // Clear the file input
+                
+            } catch (error) {
+                console.error('Error uploading file:', error);
+                addSystemMessage(`Error: ${error.message}`);
+                alert(`Error uploading file: ${error.message}`);
+            } finally {
+                uploadButton.disabled = false;
+                uploadButton.textContent = 'Upload PDF (Replaces current document)';
+            }
+        }
+
+        // Show file details when file is selected
+        document.getElementById('file').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('fileType').textContent = file.type;
+                document.getElementById('fileSize').textContent = formatFileSize(file.size);
+                document.getElementById('fileDetails').classList.remove('hidden');
+            } else {
+                document.getElementById('fileDetails').classList.add('hidden');
+            }
+        });
+
+        // Format file size in KB or MB
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        async function sendMessage(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('messageInput');
+            const message = messageInput.value.trim();
+            const sendButton = event.target.querySelector('button[type="submit"]');
+            
+            if (!message) return;
+            
+            addMessage(message, true);
+            messageInput.value = '';
+            sendButton.disabled = true;
+            sendButton.textContent = 'Sending...';
+            
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ query: message })
+                });
+                
+                const result = await response.json();
+                if (result.error) {
+                    addMessage('Error: ' + result.error, false);
+                } else {
+                    addMessage(result.response, false);
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                addMessage('Error: Failed to get response', false);
+            } finally {
+                sendButton.disabled = false;
+                sendButton.textContent = 'Send';
+            }
+        }
+
+        function addMessage(text, isUser) {
+            const chatHistory = document.getElementById('chatHistory');
+            const message = document.createElement('div');
+            message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            message.textContent = text;
+            chatHistory.appendChild(message);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        function addSystemMessage(text) {
+            const chatHistory = document.getElementById('chatHistory');
+            const message = document.createElement('div');
+            message.className = 'message system-message';
+            message.textContent = text;
+            chatHistory.appendChild(message);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        document.getElementById('uploadForm').addEventListener('submit', uploadFile);
+        document.getElementById('chatForm').addEventListener('submit', sendMessage);
+
+        // Add keyboard shortcut for sending message
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('chatForm').submit();
+            }
+        });
+    </script>
+</body>
+</html>
