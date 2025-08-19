@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Task Tracker Test</h1>
+        </header>
+        
+        <main>
+            <section class="task-form-section">
+                <form id="task-form" class="task-form">
+                    <div class="form-group">
+                        <label for="task-title">Task Title *</label>
+                        <input type="text" id="task-title" name="title" required maxlength="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="task-description">Description</label>
+                        <textarea id="task-description" name="description" maxlength="500" rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add Task</button>
+                </form>
+            </section>
+            
+            <section class="task-list-section">
+                <div id="task-list" class="task-list">
+                    <!-- Tasks will be rendered here -->
+                </div>
+                
+                <div id="empty-state" class="empty-state" style="display: none;">
+                    <p>No tasks yet. Create your first task above!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script>
+        console.log('Script loading...');
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript Error:', e.error);
+        });
+    </script>
+    <script src="script.js"></script>
+    <script>
+        console.log('Script loaded. TaskController available:', typeof taskController);
+        setTimeout(() => {
+            console.log('After timeout - TaskController:', typeof taskController);
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,784 @@
+/* CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+/* Layout */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    color: #2c3e50;
+    font-size: 2.5rem;
+    font-weight: 300;
+}
+
+main {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Task Form Section */
+.task-form-section {
+    padding: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+/* Task List Section */
+.task-list-section {
+    padding: 2rem;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #999;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .task-form-section,
+    .task-list-section {
+        padding: 1.5rem;
+    }
+}
+
+/* Ta
+sk Items */
+.task-item {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.task-item:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-color: #ccc;
+}
+
+.task-item.completed {
+    background: #f0f8f0;
+    border-color: #4caf50;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.task-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.task-item.completed .task-title {
+    text-decoration: line-through;
+    color: #666;
+}
+
+.task-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.task-description {
+    margin: 0.5rem 0;
+    color: #666;
+    line-height: 1.5;
+}
+
+.task-item.completed .task-description {
+    color: #888;
+}
+
+.task-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #eee;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.task-status {
+    font-weight: 500;
+}
+
+.task-item.completed .task-status {
+    color: #4caf50;
+}
+
+/* Button Styles */
+.btn-toggle {
+    background-color: #4caf50;
+    color: white;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.btn-toggle:hover {
+    background-color: #45a049;
+}
+
+.task-item.completed .btn-toggle {
+    background-color: #ff9800;
+}
+
+.task-item.completed .btn-toggle:hover {
+    background-color: #f57c00;
+}
+
+.btn-delete {
+    background-color: #f44336;
+    color: white;
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+}
+
+.btn-delete:hover {
+    background-color: #da190b;
+}
+
+/* Message Styles */
+.message {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+.message-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Validation Styles */
+.form-group input:invalid,
+.form-group textarea:invalid {
+    border-color: #f44336;
+}
+
+.form-group input:valid,
+.form-group textarea:valid {
+    border-color: #4caf50;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 768px) {
+    .task-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .task-title {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .task-actions {
+        justify-content: flex-end;
+    }
+
+    .task-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .btn-toggle,
+    .btn-delete {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+}
+
+/* Task 
+Summary/Stats */
+.task-summary {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    color: white;
+}
+
+.task-stats {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+/* Enhanced Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #999;
+    background: #fafafa;
+    border-radius: 8px;
+    border: 2px dashed #ddd;
+}
+
+.empty-state p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Task List Enhancements */
+.task-list {
+    min-height: 200px;
+}
+
+/* Loading and Animation States */
+.task-item {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Stats */
+@media (max-width: 768px) {
+    .task-stats {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-align: left;
+    }
+
+    .stat-item strong {
+        display: inline;
+        font-size: 1.25rem;
+        margin-bottom: 0;
+    }
+
+    .empty-state {
+        padding: 2rem 1rem;
+    }
+
+    .empty-state p {
+        font-size: 1rem;
+    }
+}
+
+* Enhanced Task Completion Styles */ .task-item.completed {
+    background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%);
+    border-color: #4caf50;
+    position: relative;
+    overflow: hidden;
+}
+
+.task-item.completed::before {
+    content: '✓';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #4caf50;
+    opacity: 0.3;
+    font-weight: bold;
+}
+
+.task-item.completed .task-title {
+    text-decoration: line-through;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.task-item.completed .task-description {
+    color: #888;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
+
+/* Toggle Button Animation */
+.btn-toggle {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Completion Animation */
+@keyframes completeTask {
+    0% {
+        transform: scale(1);
+        background-color: #f9f9f9;
+    }
+
+    50% {
+        transform: scale(1.02);
+        background-color: #e8f5e8;
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: #f0f8f0;
+    }
+}
+
+.task-item.just-completed {
+    animation: completeTask 0.6s ease-out;
+}
+
+/* Status Badge */
+.task-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.task-item:not(.completed) .task-status {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.task-item.completed .task-status {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+/* Hover Effects for Toggle */
+.task-item:hover .btn-toggle {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Toggle Enhancements */
+@media (max-width: 768px) {
+    .task-item.completed::before {
+        font-size: 1.25rem;
+        top: 8px;
+        right: 8px;
+    }
+
+    .btn-toggle {
+        min-width: 80px;
+        text-align: center;
+    }
+}
+
+/* Task
+ Sections */
+.task-section {
+    margin-bottom: 2rem;
+}
+
+.task-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px 8px 0 0;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.task-section-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #495057;
+}
+
+.task-section-count {
+    background: #6c757d;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.task-section-tasks {
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #dee2e6;
+    border-top: none;
+}
+
+.task-section-tasks .task-item {
+    margin: 0;
+    border: none;
+    border-bottom: 1px solid #f1f3f4;
+    border-radius: 0;
+}
+
+.task-section-tasks .task-item:last-child {
+    border-bottom: none;
+    border-radius: 0 0 8px 8px;
+}
+
+.task-section-tasks .task-item:first-child {
+    border-radius: 0;
+}
+
+/* Pending Tasks Section */
+.task-section-pending .task-section-header {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border-bottom-color: #ffc107;
+}
+
+.task-section-pending .task-section-title {
+    color: #856404;
+}
+
+.task-section-pending .task-section-count {
+    background: #ffc107;
+    color: #212529;
+}
+
+/* Completed Tasks Section */
+.task-section-completed .task-section-header {
+    background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+    border-bottom-color: #17a2b8;
+}
+
+.task-section-completed .task-section-title {
+    color: #0c5460;
+}
+
+.task-section-completed .task-section-count {
+    background: #17a2b8;
+    color: white;
+}
+
+/* Responsive Task Sections */
+@media (max-width: 768px) {
+    .task-section-header {
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .task-section-title {
+        font-size: 1.1rem;
+    }
+
+    .task-section-count {
+        align-self: flex-end;
+    }
+}
+
+/* Delet
+e Confirmation Dialog */
+.delete-confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.delete-confirmation-dialog {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    animation: slideIn 0.3s ease-out;
+}
+
+.delete-confirmation-header {
+    padding: 1.5rem 1.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.delete-confirmation-header h3 {
+    margin: 0 0 1rem 0;
+    color: #d32f2f;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.delete-confirmation-body {
+    padding: 1.5rem;
+}
+
+.delete-confirmation-body p {
+    margin: 0 0 1rem 0;
+    color: #555;
+    font-size: 1rem;
+}
+
+.task-preview {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 1rem;
+    margin: 1rem 0;
+}
+
+.task-preview strong {
+    color: #333;
+    font-size: 1rem;
+}
+
+.task-preview small {
+    color: #666;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.delete-confirmation-actions {
+    padding: 0 1.5rem 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.btn-cancel {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cancel:hover {
+    background: #5a6268;
+}
+
+.btn-confirm-delete {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-confirm-delete:hover {
+    background: #c82333;
+}
+
+/* Deletion Countdown Bar */
+.deletion-countdown {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    animation: slideDown 0.3s ease-out;
+}
+
+.countdown-content {
+    padding: 1rem;
+}
+
+.countdown-text {
+    display: block;
+    color: #495057;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.countdown-progress {
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.countdown-bar {
+    height: 100%;
+    background: #6c757d;
+    width: 0%;
+    transition: width 5s linear;
+    border-radius: 2px;
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Dialog */
+@media (max-width: 768px) {
+    .delete-confirmation-dialog {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+
+    .delete-confirmation-actions {
+        flex-direction: column-reverse;
+    }
+
+    .btn-cancel,
+    .btn-confirm-delete {
+        width: 100%;
+        margin: 0;
+    }
+}
